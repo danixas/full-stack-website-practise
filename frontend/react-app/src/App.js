@@ -1,14 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home"
+import Welcome from "./components/Welcome";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <button className="button" type="button">Login</button>
-        <button className="button" type="button">Register</button>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Welcome/>}/>
+        <Route path="/Home" element={<Home/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/Register" element={<Register/>}/>
+      </Routes>
+    </Router>
   );
 }
 
