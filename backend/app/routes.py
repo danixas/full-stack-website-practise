@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from .models import db, User
 from flask_bcrypt import Bcrypt
 
@@ -7,15 +7,17 @@ main = Blueprint('main', __name__)
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
 
     user = User.query.filter_by(username=username).first()
 
     if user and bcrypt.check_password_hash(user.password, password):
-        return render_template('index.html')
-    else:
-        return render_template('login.html')
+        user_data = {'username':username}
+        return jsonify(user_data), 200
+    
+    return jsonify({'error': 'Invalid credentials'}), 401
     
 @main.route('/register', methods=['GET', 'POST'])
 def register():
