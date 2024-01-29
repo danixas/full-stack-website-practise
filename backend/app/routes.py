@@ -18,20 +18,28 @@ def login():
         return jsonify(user_data), 200
     
     return jsonify({'error': 'Invalid credentials'}), 401
-    
+
+# Add a route to handle preflight requests
+@main.route('/register', methods=['OPTIONS'])
+def handle_preflight():
+    response = jsonify()
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    response.headers.add('Access-Control-Allow-Methods', 'POST')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
+
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        # Get form data
-        username = request.form.get('username')
-        password = request.form.get('password')
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
 
-        # Check if the username already exists
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user:
-            flash('Username already exists. Please choose a different one.', 'error')
-            return redirect(url_for('main.register'))
-
+    # Check if the username already exists
+    existing_user = User.query.filter_by(username=username).first()
+    if existing_user:
+        print('Username already exists. Please choose a different one.')
+        return jsonify({'error': 'Registration failed'}), 400
+    else:
         # Hash the password
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
@@ -41,11 +49,9 @@ def register():
         # Add the user to the database
         db.session.add(new_user)
         db.session.commit()
+        user_data = {'username':username}
 
-        flash('Registration successful! You can now log in.', 'success')
-        return redirect(url_for('main.login'))
-
-    return render_template('register.html')
+        return jsonify(user_data), 200
 
 @main.route('/generate_data', methods=['GET'])
 def generate_data():
