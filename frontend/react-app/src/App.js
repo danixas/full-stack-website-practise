@@ -4,10 +4,12 @@ import Home from "./pages/Home"
 import Welcome from "./pages/Welcome";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <Router>
+      <Navbar/>
       <Routes>
         <Route path="/" element={<Welcome/>}/>
         <Route path="/Home" element={<Home/>}/>
