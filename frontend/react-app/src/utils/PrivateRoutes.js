@@ -23,8 +23,13 @@ const PrivateRoutes = () => {
           setTokenState(false);
         }
       };
-  
-      validateToken();
+      if (cookies.token) {
+        validateToken();
+      }
+      else {
+        setTokenState(false);
+      }
+      
     }, [cookies.token]);
   
     if (tokenState === null) {

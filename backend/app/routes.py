@@ -3,25 +3,28 @@ from .models import db, User
 from flask_bcrypt import Bcrypt
 import jwt
 import datetime
+import sys
 
 bcrypt = Bcrypt()
 main = Blueprint('main', __name__)
 
 invalid_tokens = set()
+invalid_tokens.add(None)
 
 @main.route('/validate', methods=['POST'])
 def validate():
     token = request.headers.get('Authorization')
-
+    print(token, sys.stderr)
     if token and token.startswith('Bearer '):
         token = token.split(' ')[1]  # Extract the token part after 'Bearer '
+        print('after splicing', sys.stderr)
+        print(token, sys.stderr)
 
-        if token in invalid_tokens:
-            return jsonify({'message': 'Token invalid'}), 401
+    if token in invalid_tokens or not token:
+        return jsonify({'message': 'Token invalid'}), 401
 
-        return jsonify({'message': 'Token valid'}), 200
+    return jsonify({'message': 'Token valid'}), 200
 
-    return jsonify({'message': 'No valid token provided'}), 401
 
 @main.route('/logout', methods=['POST'])
 def logout():
