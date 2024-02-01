@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import '../styles/login.css';
+
 const LoginForm = ({onLogin}) => {
     const [, setCookie] = useCookies(['token']);
 
@@ -49,7 +51,7 @@ const LoginForm = ({onLogin}) => {
                 <input type="text" value={password} onChange={(e) => setPassword(e.target.value)}/>
             </label>
             <br/>
-            <button type="submit">Login</button>
+            <button className="submit-button" type="submit">Login</button>
         </form>
     );
 };

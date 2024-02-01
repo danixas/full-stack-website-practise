@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import LoginForm from "./LoginForm";
+import '../styles/login.css'
 
 const Login = () => {
     const [user, setUser] = useState(null);
@@ -8,7 +9,7 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className="login-container">
             <h2>Login Form</h2>
             <div>
                 {user? (

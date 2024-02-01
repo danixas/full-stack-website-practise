@@ -41,7 +41,7 @@ const RegisterForm = ({onRegister}) => {
                 <input type="text" value={password} onChange={(e) => setPassword(e.target.value)}/>
             </label>
             <br/>
-            <button type="submit">Register</button>
+            <button className="submit-button" type="submit">Register</button>
         </form>
     );
 };
