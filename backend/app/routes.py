@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask_cors import CORS
 from .models import db, User
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 import jwt
 import datetime
 import sys
@@ -10,6 +12,37 @@ main = Blueprint('main', __name__)
 
 invalid_tokens = set()
 invalid_tokens.add(None)
+
+def get_user_from_token(token):
+    user = get_jwt_identity()
+    return user
+
+@main.route('/time', methods=['GET', 'POST'])
+def time():
+    token = request.headers.get('Authorization')
+    if token and token.startswith('Bearer '):
+        token = token.split(' ')[1]
+    
+    if token:
+        user = User.query.filter_by(jwt_token=token).first()
+        if user:
+            return jsonify({'lastLogin': user.last_login})
+    return jsonify({'message': 'error: couldnt find the user'})
+
+
+        
+    '''
+    token = request.headers.get('Authorization')
+    if token and token.startswith('Bearer '):
+        token = token.split(' ')[1]  # Extract the token part after 'Bearer '
+        user = get_jwt_identity(token=token)
+        #print(user, sys.stderr)
+        if user.last_login is None:
+            return jsonify({'message': 'error finding user'}), 401
+
+        return jsonify({'lastLogin': user.last_login}), 200
+    return jsonify({'message': 'error finding user'}), 401
+    '''
 
 @main.route('/validate', methods=['POST'])
 def validate():
@@ -35,12 +68,14 @@ def logout():
         return jsonify({'message': 'Logout successful'})
     return jsonify({'message': 'Logout failed'})
 
+
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     # getting user info from frontend
     data = request.json
     username = data.get('username')
     password = data.get('password')
+    
 
     #checking to if user exists
     user = User.query.filter_by(username=username).first()
@@ -49,6 +84,10 @@ def login():
         # if user exists creating a token to authenticate the user
         expiration_time = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
         token = jwt.encode({'id':username, 'exp': expiration_time}, 'secret', algorithm='HS256')
+
+        user.last_login = datetime.datetime.utcnow()
+        user.jwt_token = token
+        db.session.commit()
 
         return jsonify({'token': token})
     

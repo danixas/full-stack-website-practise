@@ -14,6 +14,9 @@ const LoginForm = ({onLogin}) => {
     const handleLogin = async (e) => {
         try{
             e.preventDefault();
+            // Clear the password field in the state
+            setUsername('');
+            setPassword('');
             const response = await fetch('http://127.0.0.1:5000/login', {
                 method: 'POST',
                 headers: {
@@ -24,7 +27,6 @@ const LoginForm = ({onLogin}) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data.token)
                 setCookie('token', data.token);
                 navigate('/home');
             }
@@ -48,7 +50,7 @@ const LoginForm = ({onLogin}) => {
             </label>
             <label>
                 Password:
-                <input type="text" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
             </label>
             <br/>
             <button className="submit-button" type="submit">Login</button>

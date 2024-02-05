@@ -3,13 +3,13 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const PrivateRoutes = () => {
-    const [cookies] = useCookies(['token']);
+    const [cookies] = useCookies(["token"]);
     const [tokenState, setTokenState] = useState(null);
   
     useEffect(() => {
       const validateToken = async () => {
         try {
-          const response = await fetch('http://127.0.0.1:5000/validate', {
+            const response = await fetch('http://127.0.0.1:5000/validate', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

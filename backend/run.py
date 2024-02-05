@@ -1,9 +1,11 @@
 from app import create_app
 from flask_cors import CORS 
+from flask_jwt_extended import JWTManager
 
 app = create_app()
-app.config['SECRET_KEY'] = 'secret'
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "supports_credentials": True}})
+CORS(app, origins=['http://localhost:3000'], supports_credentials=True)
+
+jwt = JWTManager(app)
 
 if __name__ == '__main__':
     app.run(debug=True)

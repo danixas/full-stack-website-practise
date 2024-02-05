@@ -24,5 +24,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # test database
-*.db
-/backend/instance
+/backend/instance/users.db
