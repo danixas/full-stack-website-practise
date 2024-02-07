@@ -1,6 +1,14 @@
 # MY PROJECT TO PRACTISE REACT AND FLASK
 
 The project includes a simple User Registration and Login System with a backend built using Flask and a frontend powered by React. All passwords are hashed with Bcrypt for security.
+### How To Run:
+**Clone the repository to your local machine**
+## Secret Key
+**Create a .env folder in the root of your project to set up your own secret keys**
+```
+SECRET_KEY=[your-secret-key-goes-here]
+JWT_SECRET_KEY=[your-JWT-secret-key-goes-here]
+```
 
 ## Backend Setup
 
