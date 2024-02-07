@@ -3,10 +3,12 @@ Certainly! Below is a README.md file for your project's structure:
 ```markdown
 # MY PROJECT TO PRACTISE REACT AND FLASK
 
-The project includes, a simple User Registration and Login System with a backend built using [Flask] and a frontend powered by React.
+The project includes, a simple User Registration and Login System with a backend built using Flask and a frontend powered by React.
+all the passwords are hased with Bcrypt for security
 
 ## Backend Setup
 
+   ```
 1. **Navigate to the Backend Directory:**
    ```bash
    cd backend
