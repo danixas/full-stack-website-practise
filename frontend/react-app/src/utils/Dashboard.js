@@ -8,7 +8,7 @@ const Dashboard = () => {
     };
 
     return (
-        <button className="my-button" onClick={handleDashboard}>Dashboard</button>
+        <button className="my-button" onClick={handleDashboard}>Home</button>
     );
 };
 

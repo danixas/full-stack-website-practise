@@ -4,8 +4,8 @@
 
 body {
     margin: 0;
-    background: rgb(87,87,87);
-    background: radial-gradient(circle, rgba(87,87,87,1) 0%, rgba(57,47,142,1) 100%);
+    background: rgb(245,255,0);
+background: radial-gradient(circle, rgba(245,255,0,0.3086484593837535) 0%, rgba(255,148,98,0.8268557422969187) 100%);
 }
 
 .navbar {

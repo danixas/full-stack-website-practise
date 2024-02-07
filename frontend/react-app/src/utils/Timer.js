@@ -63,13 +63,11 @@ const Counter = () => {
     
 
     return (
-        <div>
-            <p>Last login time: {lastLogin} </p>
-            <p>Session time:        
-                {hours !== 0? <>{hours} h </>:<></>}
+        <div className="welcome-container">
+            <h1>SESSION TIME: {hours !== 0? <>{hours} h </>:<></>}
                 {minutes !== 0? <>{minutes} min </>:<></>}
                 <>{seconds} s</>
-            </p>
+            </h1>
         </div>
     );
 };

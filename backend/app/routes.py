@@ -7,11 +7,6 @@ import jwt
 import datetime
 import sys
 import os
-from dotenv import load_dotenv
-
-# Load .env file from the root directory
-dotenv_path = os.path.join(os.path.dirname(__file__), '../../.env')
-load_dotenv(dotenv_path)
 
 bcrypt = Bcrypt()
 main = Blueprint('main', __name__)
@@ -19,10 +14,6 @@ main = Blueprint('main', __name__)
 invalid_tokens = set()
 invalid_tokens.add(None)
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
-
-def get_user_from_token(token):
-    user = get_jwt_identity()
-    return user
 
 @main.route('/time', methods=['GET', 'POST'])
 def time():
@@ -85,7 +76,6 @@ def login():
     
     return jsonify({'error': 'Invalid credentials'}), 401
 
-# Add a route to handle preflight requests
 @main.route('/register', methods=['OPTIONS'])
 def handle_preflight():
     response = jsonify()

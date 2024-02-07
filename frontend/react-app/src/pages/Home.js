@@ -4,7 +4,7 @@ import Timer from "../utils/Timer"
 const Home = () => {
     return (
         <div>
-            <h1>HOME PAGE</h1>
+            <h1><b>HOME PAGE | authenticated users only</b></h1>
             <Timer/>
         </div>
         

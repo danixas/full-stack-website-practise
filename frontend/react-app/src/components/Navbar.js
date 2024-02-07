@@ -7,7 +7,7 @@ const Navbar = () => {
     const [cookies] = useCookies(["token"]);
     return (
         <nav className="navbar">
-            <a href="/">SITE NAME</a>
+            <a href="/">FLASK-REACT-APP</a>
             <ul>
                 {cookies.token?
                 <>
