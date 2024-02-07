@@ -6,12 +6,19 @@ from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 import jwt
 import datetime
 import sys
+import os
+from dotenv import load_dotenv
+
+# Load .env file from the root directory
+dotenv_path = os.path.join(os.path.dirname(__file__), '../../.env')
+load_dotenv(dotenv_path)
 
 bcrypt = Bcrypt()
 main = Blueprint('main', __name__)
 
 invalid_tokens = set()
 invalid_tokens.add(None)
+JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 
 def get_user_from_token(token):
     user = get_jwt_identity()
@@ -29,20 +36,6 @@ def time():
             return jsonify({'lastLogin': user.last_login})
     return jsonify({'message': 'error: couldnt find the user'})
 
-
-        
-    '''
-    token = request.headers.get('Authorization')
-    if token and token.startswith('Bearer '):
-        token = token.split(' ')[1]  # Extract the token part after 'Bearer '
-        user = get_jwt_identity(token=token)
-        #print(user, sys.stderr)
-        if user.last_login is None:
-            return jsonify({'message': 'error finding user'}), 401
-
-        return jsonify({'lastLogin': user.last_login}), 200
-    return jsonify({'message': 'error finding user'}), 401
-    '''
 
 @main.route('/validate', methods=['POST'])
 def validate():
@@ -75,7 +68,6 @@ def login():
     data = request.json
     username = data.get('username')
     password = data.get('password')
-    
 
     #checking to if user exists
     user = User.query.filter_by(username=username).first()
@@ -83,7 +75,7 @@ def login():
     if user and bcrypt.check_password_hash(user.password, password):
         # if user exists creating a token to authenticate the user
         expiration_time = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-        token = jwt.encode({'id':username, 'exp': expiration_time}, 'secret', algorithm='HS256')
+        token = jwt.encode({'id':username, 'exp': expiration_time}, JWT_SECRET_KEY, algorithm='HS256')
 
         user.last_login = datetime.datetime.utcnow()
         user.jwt_token = token
@@ -126,16 +118,4 @@ def register():
 
         return jsonify(user_data), 200
 
-@main.route('/generate_data', methods=['GET'])
-def generate_data():
-    user1 = User(username='admin', password=bcrypt.generate_password_hash('admin').decode('utf-8'))
-    user2 = User(username='guest', password=bcrypt.generate_password_hash('guest').decode('utf-8'))
-    # Add users to the database
-    db.session.add(user1)
-    db.session.add(user2)
-
-    # Commit changes to the database
-    db.session.commit()
-
-    return 'data generated'
 

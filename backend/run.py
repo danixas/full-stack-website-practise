@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 
 app = create_app()
-CORS(app, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(app, supports_credentials=True)
 
 jwt = JWTManager(app)
 

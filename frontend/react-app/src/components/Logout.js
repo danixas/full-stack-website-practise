@@ -12,8 +12,8 @@ const Logout = () => {
             {
                 method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${cookies.token}`,
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${cookies.token}`,
                 }
             }
             );

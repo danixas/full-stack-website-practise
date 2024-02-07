@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import LoginForm from "./LoginForm";
-import '../styles/login.css'
+import "../styles/login.css"
 
 const Login = () => {
     const [user, setUser] = useState(null);

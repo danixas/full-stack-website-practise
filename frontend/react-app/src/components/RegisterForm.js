@@ -1,16 +1,16 @@
 import React, {useState} from "react";
 
 const RegisterForm = ({onRegister}) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try{
-            const response = await fetch('http://127.0.0.1:5000/register', {
-                method: 'POST',
+            const response = await fetch("http://127.0.0.1:5000/register", {
+                method: "POST",
                 headers: {
-                    'Content-Type':'application/json',
+                    "Content-Type":"application/json",
                 },
                 body: JSON.stringify({username, password}),
             });
@@ -19,12 +19,12 @@ const RegisterForm = ({onRegister}) => {
                 onRegister(userData);
             }
             else {
-                console.error('Registration failed');
+                console.error("Registration failed");
             }
 
         }
         catch (error) {
-            console.error('Error during fetch:', error);
+            console.error("Error during fetch:", error);
         }
         
 

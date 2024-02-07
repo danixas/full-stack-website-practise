@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import RegisterForm from "./RegisterForm";
-import "../styles/register.css"
+import "../styles/register.css";
+
 const Register = () => {
     const [user, setUser] = useState(null);
     const handleRegister = (userData) => {
